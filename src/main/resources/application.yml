@@ -1,0 +1,88 @@
+spring:
+  application:
+    name: smart-classroom-hub
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/ai_smart_classroom}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:23FE1A0424}
+    driver-class-name: org.postgresql.Driver
+
+    hikari:
+      pool-name: SmartClassroomPool
+      maximum-pool-size: 10
+      minimum-idle: 2
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+
+  jpa:
+    open-in-view: true
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+
+    properties:
+      hibernate:
+        format_sql: true
+
+  flyway:
+    enabled: false
+
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+
+  ai:
+    ollama:
+      base-url: http://localhost:11434
+      chat:
+        options:
+          model: llama3.2:3b
+          temperature: 0.7
+
+face:
+  service:
+    url: http://localhost:8000
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+logging:
+  level:
+    org.springframework.ai: DEBUG
+    dev.langchain4j: DEBUG
+    com.finalYear: DEBUG
+
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+app:
+  jwt:
+    secret: SmartClassroomHub2025SecretKeyForJWTMin32CharactersLong!!
+    access-token-expiration: 3600000
+    refresh-token-expiration: 604800000
+
+  cors:
+    allowed-origins:
+      - http://localhost:5173
+      - http://localhost:3000
+
+minio:
+  endpoint: ${MINIO_ENDPOINT:http://localhost:9000}
+  access-key: ${MINIO_ACCESS_KEY:minioadmin}
+  secret-key: ${MINIO_SECRET_KEY:minioadmin}
+  bucket-name: smart-classroom

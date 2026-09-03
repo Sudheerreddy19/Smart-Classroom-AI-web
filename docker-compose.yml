@@ -1,0 +1,87 @@
+version: "3.9"
+
+services:
+
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: ai_smart_classroom
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 23FE1A0424
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+
+
+
+
+    networks:
+      - smart-network
+
+  minio:
+    image: minio/minio
+    container_name: minio
+
+    restart: unless-stopped
+
+    command: server /data --console-address ":9001"
+
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+
+    volumes:
+      - minio_data:/data
+
+    networks:
+      - smart-network
+
+  backend:
+    build: .
+
+    container_name: smart-backend
+
+    restart: always
+
+    depends_on:
+      - postgres
+
+    ports:
+      - "8080:8080"
+
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/ai_smart_classroom
+      DB_USERNAME: postgres
+      DB_PASSWORD: 23FE1A0424
+
+      OLLAMA_BASE_URL: http://host.docker.internal:11434
+
+      MINIO_ENDPOINT: http://minio:9000
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin
+
+    networks:
+      - smart-network
+
+volumes:
+
+  postgres_data:
+
+  ollama_data:
+
+  minio_data:
+
+networks:
+
+  smart-network:

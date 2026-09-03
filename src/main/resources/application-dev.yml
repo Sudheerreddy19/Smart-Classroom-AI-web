@@ -1,0 +1,37 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ai_smart_classroom
+    username: postgres
+    password: 23FE1A0424
+
+    hikari:
+      maximum-pool-size: 5
+      minimum-idle: 2
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+
+  jpa:
+    show-sql: true
+
+    properties:
+      hibernate:
+        format_sql: true
+
+logging:
+  level:
+    com.finalYear: DEBUG
+    org.springframework: INFO
+    org.springframework.security: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE
+
+server:
+  port: 8080
+
+mqtt:
+  broker-url: tcp://localhost:1883
+
+app:
+  face-recognition:
+    base-url: http://localhost:5001

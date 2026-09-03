@@ -1,0 +1,46 @@
+# Maven build output
+target/
+*.class
+*.jar
+*.war
+
+# Spring Boot logs
+logs/
+*.log
+*.log.*
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Node / npm
+node_modules/
+npm-debug.log*
+
+# Vite / React build output
+smart-classroom-frontend/dist/
+smart-classroom-frontend/.vite/
+smart-classroom-frontend/node_modules/
+
+# Environment / secrets
+.env
+.env.local
+.env.*.local
+application-secrets.yml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker volumes / data
+postgres_data/
+ollama_data/
+
+# Test / API scripts
+test-api.ps1

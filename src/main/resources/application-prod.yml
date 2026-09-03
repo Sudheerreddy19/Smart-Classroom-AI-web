@@ -1,0 +1,90 @@
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://postgres:5432/ai_smart_classroom}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+
+    hikari:
+      pool-name: SmartClassroomPool
+      maximum-pool-size: 50
+      minimum-idle: 10
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+
+  jpa:
+    show-sql: false
+
+    hibernate:
+      ddl-auto: validate
+
+    properties:
+      hibernate:
+        format_sql: false
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+
+  ai:
+    ollama:
+      base-url: http://localhost:11434
+
+server:
+  port: ${SERVER_PORT:8080}
+
+  servlet:
+    context-path: /api
+
+  error:
+    include-message: never
+    include-binding-errors: never
+
+logging:
+  level:
+    com.finalYear: INFO
+    org.springframework: WARN
+    org.springframework.security: WARN
+    org.hibernate: WARN
+    org.flywaydb: INFO
+
+  file:
+    name: logs/smart-classroom.log
+
+app:
+  jwt:
+    # No fallback here on purpose: prod must fail fast if JWT_SECRET is missing.
+    secret: ${JWT_SECRET}
+
+  cors:
+    allowed-origins:
+      - ${CORS_ORIGINS:https://smartclassroom.example.com}
+
+mqtt:
+  broker-url: ${MQTT_BROKER_URL:tcp://mosquitto:1883}
+  client-id: smart-classroom-backend
+  username: ${MQTT_USERNAME:}
+  password: ${MQTT_PASSWORD:}
+
+minio:
+  endpoint: ${MINIO_ENDPOINT:http://minio:9000}
+  access-key: ${MINIO_ACCESS_KEY:dominion}
+  secret-key: ${MINIO_SECRET_KEY:dominion}
+  bucket-name: ${MINIO_BUCKET:smart-classroom}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+
+  endpoint:
+    health:
+      show-details: never
+
+springdoc:
+  api-docs:
+    enabled: false
+
+  swagger-ui:
+    enabled: false
