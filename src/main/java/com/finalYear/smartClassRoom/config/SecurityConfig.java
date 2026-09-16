@@ -61,8 +61,16 @@ public class SecurityConfig {
                 // ── Public: Actuator health ───────────────────────────────────
                 .requestMatchers("/actuator/**").permitAll()
 
-                // ── Public: Error / CORS preflight ────────────────────────────
-                .requestMatchers("/", "/error", "/favicon.ico").permitAll()
+                // ── Public: Frontend SPA, static assets & icons ─────────────────
+                .requestMatchers(
+                    "/", "/index.html", "/favicon.ico", "/favicon.svg", "/icons.svg", "/vite.svg",
+                    "/assets/**", "/data/**", "/static/**", "/error",
+                    "/*.js", "/*.css", "/*.png", "/*.jpg", "/*.svg", "/*.ico", "/*.json"
+                ).permitAll()
+                .requestMatchers(
+                    "/{path:^(?!api|ws|actuator).*$}",
+                    "/{path:^(?!api|ws|actuator).*$}/**"
+                ).permitAll()
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
                 // ── Public: Department + Semester list for registration form ──

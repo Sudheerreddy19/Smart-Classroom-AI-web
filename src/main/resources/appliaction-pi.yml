@@ -1,9 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://${PGHOST}:${PGPORT}/${PGDATABASE}
-    username: ${PGUSER}
-    password: ${PGPASSWORD}
-
+    url: jdbc:postgresql://:5432/ai_smart_classroom
+    username: postgres
+    password: 23FE1A0424
 
   jpa:
     show-sql: false

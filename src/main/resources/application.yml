@@ -1,11 +1,11 @@
 spring:
   application:
-    name: smart-classroom-hub
+    name: UrbanEye Backend
 
   datasource:
-    url: ${DB_URL:jdbc:postgresql://localhost:5432/ai_smart_classroom}
-    username: ${DB_USERNAME:postgres}
-    password: ${DB_PASSWORD:23FE1A0424}
+    url: jdbc:postgresql://${PGHOST}:${PGPORT}/${PGDATABASE}
+    username: ${PGUSER}
+    password: ${PGPASSWORD}
     driver-class-name: org.postgresql.Driver
 
     hikari:
@@ -24,7 +24,7 @@ spring:
 
     properties:
       hibernate:
-        format_sql: true
+        format_sql: false
 
   flyway:
     enabled: false
@@ -40,7 +40,7 @@ spring:
 
   ai:
     ollama:
-      base-url: http://localhost:11434
+      base-url: ${OLLAMA_BASE_URL:http://localhost:11434}
       chat:
         options:
           model: llama3.2:3b
@@ -48,10 +48,10 @@ spring:
 
 face:
   service:
-    url: http://localhost:8000
+    url: ${FACE_SERVICE_URL:http://localhost:8000}
 
 server:
-  port: 8080
+  port: ${PORT:8080}
 
 management:
   endpoints:
