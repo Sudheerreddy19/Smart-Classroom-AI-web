@@ -80,6 +80,8 @@ app:
     allowed-origins:
       - http://localhost:5173
       - http://localhost:3000
+      - https://*.up.railway.app
+      - https://*.railway.app
 
 minio:
   endpoint: ${MINIO_ENDPOINT:http://localhost:9000}

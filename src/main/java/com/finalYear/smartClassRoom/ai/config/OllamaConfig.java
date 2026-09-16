@@ -21,7 +21,7 @@ public class OllamaConfig {
     @Bean
     public OllamaChatModel ollamaChatModel(
 
-            @Value("${spring.ai.ollama.base-url:${OLLAMA_BASE_URL:http://localhost:11434}}")
+            @Value("${OLLAMA_BASE_URL:${spring.ai.ollama.base-url:http://ollama.railway.internal:11434}}")
             String baseUrl,
 
             @Value("${spring.ai.ollama.chat.options.model:${OLLAMA_MODEL:llama3.2:3b}}")

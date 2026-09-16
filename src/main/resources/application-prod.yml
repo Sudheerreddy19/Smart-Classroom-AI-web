@@ -60,7 +60,7 @@ app:
 
   cors:
     allowed-origins:
-      - ${CORS_ORIGINS:https://smartclassroom.example.com}
+      - ${CORS_ORIGINS:*}
 
 mqtt:
   broker-url: ${MQTT_BROKER_URL:tcp://mosquitto:1883}
