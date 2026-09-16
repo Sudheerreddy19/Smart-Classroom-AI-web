@@ -52,6 +52,7 @@ import ClassroomCapacity  from "../pages/classrooms/ClassroomCapacity";
 
 // Student profile
 import StudentProfile from "../pages/student/StudentProfile";
+import LiveBusTracking from "../pages/student/LiveBusTracking";
 
 import AccessDenied from "../components/common/AccessDenied";
 import VoiceTest    from "../pages/VoiceTest";
@@ -211,6 +212,11 @@ export default function AppRoutes() {
         {/* ── Student Profile (students view own profile) ── */}
         <Route path="/profile" element={
           <PrivateRoute><RoleRoute allowedRoles={ALL}><StudentProfile /></RoleRoute></PrivateRoute>
+        } />
+
+        {/* ── Live Bus Tracking: STUDENT role ONLY ── */}
+        <Route path="/bus-tracking" element={
+          <PrivateRoute><RoleRoute allowedRoles={["STUDENT"]}><LiveBusTracking /></RoleRoute></PrivateRoute>
         } />
 
         {/* Fallback */}

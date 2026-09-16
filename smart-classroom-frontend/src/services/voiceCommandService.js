@@ -447,6 +447,7 @@ export const processVoiceCommand = async (rawTranscript, context = {}) => {
     { words: ["setting", "config"], path: "/settings", title: "Settings" },
     { words: ["doubt", "study"], path: "/ai-assistant", title: "AI Assistant" },
     { words: ["profile"], path: "/profile", title: "Profile" },
+    { words: ["bus", "bus tracking"], path: "/bus-tracking", title: "Live Bus Tracking", requiredRole: "STUDENT" },
   ];
 
   for (const kr of keywordRoutes) {

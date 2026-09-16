@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   Users, UserCheck, GraduationCap, BookOpen, Monitor,
   Thermometer, Droplets, Wind, Leaf, AlertTriangle,
-  UserCog, CheckSquare, Plus, RefreshCw, Shield, Bot
+  UserCog, CheckSquare, Plus, RefreshCw, Shield, Bot, Bus
 } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 import { fetchDashboardStats, selectDashboard } from "../../store/slices/dashboardSlice";
@@ -123,22 +123,30 @@ export default function Dashboard() {
         </div>
       )}
 
-      {/* ── Student view ── */}
+      {/* ── Student quick cards ── */}
       {isStudent && (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Quick links */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
-            { label:"My Attendance",  path:"/attendance",  color:"bg-blue-600",   icon:UserCheck },
-            { label:"My Marks",       path:"/exams",        color:"bg-green-600",  icon:BookOpen },
-            { label:"AI Assistant",   path:"/ai-assistant", color:"bg-purple-600", icon:Bot },
+            { label:"My Attendance",  path:"/attendance",  color:"bg-blue-600",   icon:UserCheck, actionText: "View now →" },
+            { label:"My Marks",       path:"/exams",        color:"bg-green-600",  icon:BookOpen,  actionText: "View now →" },
+            { label:"AI Assistant",   path:"/ai-assistant", color:"bg-purple-600", icon:Bot,       actionText: "Chat now →" },
+            { label:"Live Bus Tracking", path:"/bus-tracking", color:"bg-indigo-600", icon:Bus, badge:"LIVE", actionText: "Track now →" },
           ].map(q => {
             const Icon = q.icon;
             return (
               <button key={q.label} onClick={() => navigate(q.path)}
-                className={`${q.color} hover:opacity-90 text-white rounded-xl p-5 text-left shadow-sm transition`}>
-                <Icon size={24} className="mb-2 opacity-90" />
-                <div className="font-semibold">{q.label}</div>
-                <div className="text-white/70 text-xs mt-1">View now →</div>
+                className={`${q.color} hover:opacity-95 text-white rounded-xl p-5 text-left shadow-sm transition relative overflow-hidden group`}>
+                <div className="flex items-center justify-between mb-2">
+                  <Icon size={24} className="opacity-90" />
+                  {q.badge && (
+                    <span className="text-[10px] bg-white/25 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider flex items-center gap-1 shadow-sm">
+                      <span className="w-1.5 h-1.5 bg-emerald-300 rounded-full animate-pulse"></span>
+                      {q.badge}
+                    </span>
+                  )}
+                </div>
+                <div className="font-semibold text-base">{q.label}</div>
+                <div className="text-white/80 text-xs mt-1">{q.actionText}</div>
               </button>
             );
           })}

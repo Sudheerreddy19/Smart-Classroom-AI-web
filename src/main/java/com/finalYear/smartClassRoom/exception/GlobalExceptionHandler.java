@@ -91,6 +91,15 @@ public class GlobalExceptionHandler {
                 .body(build(HttpStatus.FORBIDDEN, ex.getMessage(), request.getRequestURI()));
     }
 
+    // ── Client premature disconnect / page refresh (suppress broken pipe logs) ──
+    @ExceptionHandler({
+            org.apache.catalina.connector.ClientAbortException.class,
+            org.springframework.web.context.request.async.AsyncRequestNotUsableException.class
+    })
+    public void handleClientAbort(Exception ex) {
+        log.debug("Client aborted or closed connection prematurely: {}", ex.getMessage());
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleAll(
             Exception ex, HttpServletRequest request) {

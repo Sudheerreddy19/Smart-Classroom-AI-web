@@ -195,6 +195,10 @@ public class SecurityConfig {
                     .requestMatchers("/api/ai/**")
                     .authenticated()
 
+                // ── Live Bus Tracking: Strictly restricted to STUDENT role ──
+                .requestMatchers("/api/bus-tracking/**")
+                    .hasRole("STUDENT")
+
                 // ── Audit Logs (admin only) ────────────────────────────────────────────────
                 .requestMatchers("/api/audit/**", "/api/audit-logs/**")
                     .hasAnyRole("SUPER_ADMIN", "ADMIN")

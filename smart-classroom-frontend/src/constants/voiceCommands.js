@@ -80,6 +80,13 @@ export const ROUTE_COMMAND_MAP = [
     path: "/profile",
     title: "Profile",
   },
+  // Live Bus Tracking (STUDENT only)
+  {
+    regex: new RegExp(`^${NAV_PREFIX}(?:live\\s+bus\\s+tracking|bus\\s+tracking|my\\s+bus|track\\s+bus|live\\s+bus|bus)$`, "i"),
+    path: "/bus-tracking",
+    title: "Live Bus Tracking",
+    requiredRoles: ["STUDENT"],
+  },
   // Student Doubts (AI Assistant chat page)
   {
     regex: new RegExp(`^${NAV_PREFIX}(?:doubts|academic\\s+doubts|ai\\s+assistant\\s+page|ai\\s+assistant|doubt\\s+solver|study\\s+assistant|chat\\s+assistant)$`, "i"),

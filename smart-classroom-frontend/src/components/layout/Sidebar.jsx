@@ -4,7 +4,7 @@ import {
   LayoutDashboard, Users, GraduationCap, CalendarDays, ClipboardCheck,
   BookOpen, Bot, Monitor, Leaf, BarChart3, Bell, Settings, ChevronLeft,
   LogOut, Building2, Cpu, ShieldCheck, User, FileText, Layers, TrendingUp,
-  Camera, Upload, CalendarRange,
+  Camera, Upload, CalendarRange, Bus,
 } from "lucide-react";
 import { useState } from "react";
 import { selectUser, logoutUser } from "../../store/slices/authSlice";
@@ -90,13 +90,14 @@ const MENUS = {
   ],
 
   STUDENT: [
-    { icon: LayoutDashboard, title: "Dashboard",     path: "/dashboard" },
-    { icon: ClipboardCheck,  title: "My Attendance", path: "/attendance" },
-    { icon: FileText,        title: "My Marks",      path: "/exams" },
-    { icon: CalendarDays,    title: "Timetable",     path: "/timetable" },
-    { icon: Bot,             title: "AI Assistant",  path: "/ai-assistant" },
-    { icon: User,            title: "My Profile",    path: "/profile" },
-    { icon: Bell,            title: "Notifications", path: "/notifications", showBadge: true },
+    { icon: LayoutDashboard, title: "Dashboard",         path: "/dashboard" },
+    { icon: ClipboardCheck,  title: "My Attendance",     path: "/attendance" },
+    { icon: FileText,        title: "My Marks",          path: "/exams" },
+    { icon: CalendarDays,    title: "Timetable",         path: "/timetable" },
+    { icon: Bot,             title: "AI Assistant",      path: "/ai-assistant" },
+    { icon: Bus,             title: "Live Bus Tracking", path: "/bus-tracking", badge: "Live" },
+    { icon: User,            title: "My Profile",        path: "/profile" },
+    { icon: Bell,            title: "Notifications",     path: "/notifications", showBadge: true },
   ],
 };
 
@@ -181,6 +182,11 @@ export default function Sidebar() {
               {!collapsed && (
                 <>
                   <span className="flex-1 truncate">{menu.title}</span>
+                  {menu.badge && (
+                    <span className="bg-emerald-500/20 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded-full border border-emerald-500/30 tracking-wide">
+                      {menu.badge}
+                    </span>
+                  )}
                   {badge && (
                     <span className="bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0 font-medium">
                       {unreadCount > 9 ? "9+" : unreadCount}
