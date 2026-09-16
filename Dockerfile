@@ -9,13 +9,13 @@ COPY smart-classroom-frontend/ ./
 RUN npm run build
 
 # ── Stage 2: Build Spring Boot Backend ─────────────────────────
-FROM eclipse-temurin:21-jdk-alpine AS backend-builder
+FROM eclipse-temurin:21-jdk AS backend-builder
 WORKDIR /app
 
 COPY mvnw* ./
 COPY .mvn .mvn
 COPY pom.xml ./
-RUN chmod +x mvnw
+RUN sed -i 's/\r$//' mvnw && chmod +x mvnw
 
 COPY src ./src
 

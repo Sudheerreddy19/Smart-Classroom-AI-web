@@ -67,10 +67,6 @@ public class SecurityConfig {
                     "/assets/**", "/data/**", "/static/**", "/error",
                     "/*.js", "/*.css", "/*.png", "/*.jpg", "/*.svg", "/*.ico", "/*.json"
                 ).permitAll()
-                .requestMatchers(
-                    "/{path:^(?!api|ws|actuator).*$}",
-                    "/{path:^(?!api|ws|actuator).*$}/**"
-                ).permitAll()
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
                 // ── Public: Department + Semester list for registration form ──
@@ -214,8 +210,11 @@ public class SecurityConfig {
                 // ── Students: TEACHER can create + edit (Phase 3 RBAC) ────────────────
                 // Note: fine-grained authz done in StudentController via RoleValidator
 
-                // ── Everything else requires authentication ────────────────────
-                .anyRequest().authenticated()
+                // ── Any other /api endpoint requires authentication ───────────
+                .requestMatchers("/api/**").authenticated()
+
+                // ── All other requests (frontend SPA client routes) are public ─
+                .anyRequest().permitAll()
             )
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 

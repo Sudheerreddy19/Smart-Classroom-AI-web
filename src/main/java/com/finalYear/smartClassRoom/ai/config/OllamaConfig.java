@@ -1,6 +1,8 @@
 package com.finalYear.smartClassRoom.ai.config;
 
 import dev.langchain4j.model.ollama.OllamaChatModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,13 +16,15 @@ import java.time.Duration;
 @Configuration
 public class OllamaConfig {
 
+    private static final Logger log = LoggerFactory.getLogger(OllamaConfig.class);
+
     @Bean
     public OllamaChatModel ollamaChatModel(
 
-            @Value("${spring.ai.ollama.base-url}")
+            @Value("${spring.ai.ollama.base-url:${OLLAMA_BASE_URL:http://localhost:11434}}")
             String baseUrl,
 
-            @Value("${spring.ai.ollama.chat.options.model}")
+            @Value("${spring.ai.ollama.chat.options.model:${OLLAMA_MODEL:llama3.2:3b}}")
             String model
 
     ) {
@@ -33,13 +37,16 @@ public class OllamaConfig {
 
         try {
 
-            HttpClient client = HttpClient.newHttpClient();
+            HttpClient client = HttpClient.newBuilder()
+                    .connectTimeout(Duration.ofSeconds(4))
+                    .build();
 
             // ---------------------------------------------------------
-            // Check available models
+            // Check available models with timeout
             // ---------------------------------------------------------
             HttpRequest tagsRequest = HttpRequest.newBuilder()
                     .uri(URI.create(baseUrl + "/api/tags"))
+                    .timeout(Duration.ofSeconds(4))
                     .GET()
                     .build();
 
@@ -71,6 +78,7 @@ public class OllamaConfig {
             HttpRequest chatRequest =
                     HttpRequest.newBuilder()
                             .uri(URI.create(baseUrl + "/api/chat"))
+                            .timeout(Duration.ofSeconds(6))
                             .header("Content-Type", "application/json")
                             .POST(HttpRequest.BodyPublishers.ofString(body))
                             .build();
@@ -87,9 +95,12 @@ public class OllamaConfig {
 
         } catch (Exception e) {
             System.out.println("================================");
-            System.out.println("OLLAMA CONNECTION FAILED");
-            e.printStackTrace();
+            System.out.println("OLLAMA CONNECTION NOTICE: " + e.getMessage());
+            System.out.println("Base URL tested: " + baseUrl);
+            System.out.println("Smart AI Classroom backend will continue starting normally.");
+            System.out.println("AI requests will connect dynamically once Ollama is available.");
             System.out.println("================================");
+            log.warn("Ollama is currently unreachable at {}: {}. Backend startup continuing.", baseUrl, e.getMessage());
         }
 
         return OllamaChatModel.builder()

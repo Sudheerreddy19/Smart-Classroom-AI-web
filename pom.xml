@@ -17,7 +17,7 @@
 	<artifactId>smartClassRoom</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
-	<name>Smart Classroom</name>
+	<name>Smart AI Classroom</name>
 	<description>AI Powered Smart Classroom Management System</description>
 
 	<properties>
